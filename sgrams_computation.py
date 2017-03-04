@@ -33,14 +33,16 @@ def ranked_list(entry, skips):
 	return sgram_sort
 
 misspells = open("aspell_testdata.txt", "r+")
-
+mrr = 0.0
+size = 0.0
 for line in misspells:
 	values = line.rstrip().split()
 	answer = values[1]
 	query = values[0]
 	sgram_sort = ranked_list(query, skips)
 	rank = 1
-	final_rank = 1
+	final_rank = 11
+	size += 1.0
 	print "\nThe given query is: " + query + "\n"
 	for w in sorted(sgram_sort, key=sgram_sort.get, reverse=True):
 		print w, sgram_sort[w]
@@ -48,4 +50,6 @@ for line in misspells:
 			final_rank = rank
 		else:
 			rank += 1
+	mrr += float(1.0 / final_rank)
 	print "\nThe correct answer was found at rank: " + str(final_rank) + "\n"
+print "\nThe MRR is: " + str(mrr / size)
